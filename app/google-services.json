@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "314440337253",
+    "project_id": "appcomert",
+    "storage_bucket": "appcomert.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:314440337253:android:2c84f97c826b4e00d5438c",
+        "android_client_info": {
+          "package_name": "com.example.aplicatieecomercejava"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "314440337253-7en2efeeo7bad909i7e21gavqtb4fbeb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAJO1kaRJE-Er98122BGFw0C7Imq7AIYFI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "314440337253-7en2efeeo7bad909i7e21gavqtb4fbeb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
