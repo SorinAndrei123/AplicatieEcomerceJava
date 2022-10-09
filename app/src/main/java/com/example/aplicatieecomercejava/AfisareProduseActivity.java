@@ -5,7 +5,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.google.firebase.database.DataSnapshot;
@@ -44,7 +47,7 @@ public class AfisareProduseActivity extends AppCompatActivity {
                     Produs produs=dataSnapshot.getValue(Produs.class);
                     listaProduse.add(produs);
                 }
-                adaptorListView=new AdaptorListView(getApplicationContext(),R.layout.layoutadaptorproduse,listaProduse,getLayoutInflater(),storageReference);
+                adaptorListView=new AdaptorListView(getApplicationContext(),R.layout.layoutadaptorproduse,listaProduse,getLayoutInflater(),storageReference,databaseReference);
                 listView.setAdapter(adaptorListView);
 
             }
@@ -52,6 +55,17 @@ public class AfisareProduseActivity extends AppCompatActivity {
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
+            }
+        });
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Intent intent=new Intent(getApplicationContext(),ActivityAddProduse.class);
+                Bundle bundle=new Bundle();
+                bundle.putSerializable("produs",listaProduse.get(i));
+                intent.putExtras(bundle);
+                startActivity(intent);
+                return true;
             }
         });
     }

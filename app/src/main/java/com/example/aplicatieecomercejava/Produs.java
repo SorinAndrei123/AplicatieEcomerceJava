@@ -7,7 +7,7 @@ public class Produs implements Serializable {
     private String descriere;
     private float pret;
     private boolean esteDisponibil;
-    String idFirebase;
+    private String idFirebase;
 
     public Produs() {
     }
@@ -56,6 +56,14 @@ public class Produs implements Serializable {
         this.descriere = descriere;
         this.pret = pret;
         this.esteDisponibil = esteDisponibil;
+        this.idFirebase = idFirebase;
+    }
+
+    public String getIdFirebase() {
+        return idFirebase;
+    }
+
+    public void setIdFirebase(String idFirebase) {
         this.idFirebase = idFirebase;
     }
 }

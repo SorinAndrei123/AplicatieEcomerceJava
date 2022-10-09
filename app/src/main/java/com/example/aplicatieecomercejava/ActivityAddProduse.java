@@ -7,6 +7,7 @@ import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -17,17 +18,26 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.makeramen.RoundedTransformationBuilder;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Transformation;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.UUID;
 
 public class ActivityAddProduse extends AppCompatActivity {
@@ -40,6 +50,8 @@ public class ActivityAddProduse extends AppCompatActivity {
     ImageView imageView;
     private Uri filePath;
     private final int PICK_IMAGE_REQUEST = 71;
+    Intent intent;
+    Produs produs;
 
 
 
@@ -59,33 +71,104 @@ public class ActivityAddProduse extends AppCompatActivity {
         storage = FirebaseStorage.getInstance();
         imageView=findViewById(R.id.imageView);
         storageReference = storage.getReference();
+        intent=getIntent();
+        if(intent!=null){
+            produs= (Produs) intent.getSerializableExtra("produs");
+            if(produs!=null){
+                adaugaProdus.setText("Modifica");
+                nume.setText(produs.getNume());
+                descriere.setText(produs.getDescriere());
+                pret.setText(String.valueOf(produs.getPret()));
+                if(produs.isEsteDisponibil()==true){
+                    checkBox.setChecked(true);
+                }
+                else{
+                    checkBox.setChecked(false);
+                }
+                Transformation transformation=new RoundedTransformationBuilder().borderColor(Color.BLACK).borderWidthDp(3).cornerRadiusDp(30).oval(false).build();
+                storageReference.child(produs.getNume()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        Picasso.get().load(uri).fit().transform(transformation).into(imageView);
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
+                    }
+                });
+            }
+            adaugaProdus.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    String numeP=nume.getText().toString();
+                    String descriereP=descriere.getText().toString();
+                    Float pretP=Float.valueOf(pret.getText().toString());
+                    Boolean disponibilitate;
+                    if(checkBox.isChecked()==true){
+                        disponibilitate=true;
+                    }
+                    else{
+                        disponibilitate=false;
+                    }
+                    HashMap ProdusHash=new HashMap();
+                    ProdusHash.put("nume",numeP);
+                    ProdusHash.put("descriere",descriereP);
+                    ProdusHash.put("pret",pretP);
+                    ProdusHash.put("esteDisponibil",disponibilitate);
+                    databaseReference.child(numeP).updateChildren(ProdusHash).addOnCompleteListener(new OnCompleteListener() {
+                        @Override
+                        public void onComplete(@NonNull Task task) {
+                            if(task.isSuccessful()){
+                                golireDate();
+
+                            }
+                        }
+                    });
+
+
+
+
+                }
+            });
+
+
+        }
+        else{
+
+        }
         alegePoza.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
             }
         });
-        adaugaProdus.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String numeP=nume.getText().toString();
-                String descriereP=descriere.getText().toString();
-                Float pretP=Float.valueOf(pret.getText().toString());
-                Boolean disponibilitate;
-                if(checkBox.isChecked()==true){
-                    disponibilitate=true;
-                }
-                else{
-                    disponibilitate=false;
-                }
-                String id=databaseReference.push().getKey();
-                Produs produs=new Produs(numeP,descriereP,pretP,disponibilitate,id);
-                databaseReference.child(id).setValue(produs);
-                golireDate();
+
+        if(intent==null){
+            adaugaProdus.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    String numeP=nume.getText().toString();
+                    String descriereP=descriere.getText().toString();
+                    Float pretP=Float.valueOf(pret.getText().toString());
+                    Boolean disponibilitate;
+                    if(checkBox.isChecked()==true){
+                        disponibilitate=true;
+                    }
+                    else{
+                        disponibilitate=false;
+                    }
+                    String id=databaseReference.push().getKey();
+                    Produs produs=new Produs(numeP,descriereP,pretP,disponibilitate,id);
+                    databaseReference.child(numeP).setValue(produs);
+                    golireDate();
 
 
-            }
-        });
+                }
+            });
+
+        }
+
         adaugaPoza.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
