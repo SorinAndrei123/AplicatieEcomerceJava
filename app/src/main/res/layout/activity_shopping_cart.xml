@@ -4,25 +4,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AfisareProduseActivity">
-
+    tools:context=".ShoppingCartActivity">
 
     <ListView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/listViewProduse"
+        android:id="@+id/listViewShoppingCart"
         tools:layout_editor_absoluteX="1dp"
         tools:layout_editor_absoluteY="1dp" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/floatingActionButtonShoppingCart"
-        android:layout_width="wrap_content"
+    <EditText
+        android:id="@+id/editTextValoareComanda"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="36dp"
-        android:clickable="true"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Valoare Comanda:"
+        android:editable="false"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/shoppingcart" />
-
-
+        tools:layout_editor_absoluteX="146dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>
