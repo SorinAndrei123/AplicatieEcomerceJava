@@ -31,6 +31,7 @@ import com.squareup.picasso.Transformation;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class AdaptorShoppingCart extends ArrayAdapter {
     Context context;
@@ -39,6 +40,7 @@ public class AdaptorShoppingCart extends ArrayAdapter {
     LayoutInflater inflater;
     float valoareComanda;
     EditText editText;
+    Map<String,Integer> map=new HashMap<>();
 
     public AdaptorShoppingCart(@NonNull Context context, int resource, @NonNull  List<Produs> objects, LayoutInflater inflater,float valoareComanda,EditText editText) {
         super(context, resource, objects);
@@ -48,6 +50,9 @@ public class AdaptorShoppingCart extends ArrayAdapter {
         this.inflater=inflater;
         this.editText=editText;
         this.valoareComanda=valoareComanda;
+        for(Produs produs:listaProduse){
+            map.put(produs.getNume(),1);
+        }
 
 
 
@@ -62,13 +67,15 @@ public class AdaptorShoppingCart extends ArrayAdapter {
         @SuppressLint("MissingInflatedId") ImageView plus=listviewView.findViewById(R.id.imageViewAddButton);
         @SuppressLint("MissingInflatedId") ImageView minus=listviewView.findViewById(R.id.imageViewMinusButton);
         numeProdus.setText(listaProduse.get(position).getNume());
-       cantitate.setText("1");
+            cantitate.setText(String.valueOf(map.get(listaProduse.get(position).getNume())));
+
        plus.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View view) {
                        valoareComanda+=listaProduse.get(position).getPret();
                        int new_value= Integer.valueOf((String) cantitate.getText())+1;
                       cantitate.setText(String.valueOf(new_value));
+                      map.put(listaProduse.get(position).getNume(),map.get(listaProduse.get(position).getNume())+1);
                        editText.setText("Valoarea comenzii este de "+String.valueOf(valoareComanda)+" lei.");
 
 
@@ -92,12 +99,14 @@ public class AdaptorShoppingCart extends ArrayAdapter {
                        }
 
                        cantitate.setText(String.valueOf(new_value));
+               map.put(listaProduse.get(position).getNume(),map.get(listaProduse.get(position).getNume())-1);
                        editText.setText("Valoarea comenzii este de "+String.valueOf(valoareComanda)+" lei.");
 
 
 
 
                listaProduse.removeAll(produsSters);
+
 
 
 

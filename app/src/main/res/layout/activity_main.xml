@@ -9,22 +9,33 @@
 
     <Button
         android:id="@+id/buttonVizualizareProduse"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/Widget.AppCompat.Button"
+        android:layout_width="183dp"
+        android:layout_height="65dp"
         android:layout_marginStart="4dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="60dp"
         android:text="Vizualizare Produse"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/buttonAdaugaProduse"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="96dp"
+        android:layout_width="231dp"
+        android:layout_height="68dp"
+        android:layout_marginStart="184dp"
+        android:layout_marginTop="60dp"
         android:text="Adauga Produse"
+        android:background="@color/black"
+
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/shop" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
